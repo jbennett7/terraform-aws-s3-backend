@@ -16,9 +16,10 @@ resource "aws_kms_key" "s3_bucket_kms_encryption_key" {
   description             = var.kms_key_description
   deletion_window_in_days = var.kms_key_deletion_window_in_days
   enable_key_rotation     = var.enable_key_rotation
-  policy = templatefile(var.kms_key_policy_template_file_path,
-    { key_access_principal_arn = module.s3_access_service_role.this_iam_role_arn,
-  account_id = var.account_id })
+  policy = templatefile(var.kms_key_policy_template_file_path, {
+    key_access_principal_arn = module.s3_access_service_role.this_iam_role_arn,
+    account_id               = var.account_id
+  })
 }
 
 module "s3_access_service_role" {
@@ -38,9 +39,9 @@ module "s3_backend" {
   #   target_prefix = "access-logs/"
   # }
   attach_policy = var.attach_policy
-  policy = templatefile(var.bucket_policy_template_file_path,
-    { bucket_access_principal_arn = module.s3_access_service_role.this_iam_role_arn,
-      bucket_name                 = local.bucket_name
+  policy = templatefile(var.bucket_policy_template_file_path, {
+    bucket_access_principal_arn = module.s3_access_service_role.this_iam_role_arn,
+    bucket_name                 = local.bucket_name
   })
   server_side_encryption_configuration = {
     rule = {
