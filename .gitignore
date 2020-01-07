@@ -1,0 +1,7 @@
+*.swp
+id_rsa.pub
+.terraform/
+config/*
+terraform.tfstate*
+terraform.tfvars
+test/*
